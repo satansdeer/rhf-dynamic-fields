@@ -1,25 +1,46 @@
-import React from 'react';
-import logo from './logo.svg';
-import './App.css';
+import React from "react";
+import "./App.css";
+import { useForm } from "react-hook-form";
 
 function App() {
+  const { register, handleSubmit, watch } = useForm();
+  const likesCakes = watch("likesCakes");
+
+  const onSubmit = (data) => {
+    alert(JSON.stringify(data));
+  };
+
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    <form onSubmit={handleSubmit(onSubmit)}>
+      <div>
+        <label htmlFor="name">Name: </label>
+        <input name="name" id="name" ref={register} />
+      </div>
+
+      <div>
+        <label htmlFor="likesCakes">Likes Cakes: </label>
+        <input
+          type="checkbox"
+          name="likesCakes"
+          id="likesCakes"
+          ref={register}
+        />
+      </div>
+
+      {likesCakes && (
+        <div>
+          <label htmlFor="favouriteFlavour">Favourite Flavour:</label>
+          <select id="favouriteFlavour" name="favouriteFlavour" ref={register}>
+            <option value="chocolate">Chocolate</option>
+            <option value="lime">Lime</option>
+            <option value="coconut">Coconut</option>
+            <option value="mango">Mango</option>
+          </select>
+        </div>
+      )}
+
+      <button>Submit</button>
+    </form>
   );
 }
 
